@@ -1,5 +1,5 @@
 const express=require('express')
-
+const mongoose=require('mongoose')
 const workoutRoutes=require('./routes/workouts')
 
 require('dotenv').config()
@@ -18,27 +18,21 @@ console.log(req.path,req.method)
 
 app.use('/api/workouts',workoutRoutes);
 
-
-//listen for request
-app.listen(process.env.PORT,()=>{
-    console.log(`listening at Port ${process.env.PORT}`)
+mongoose.connect(process.env.MONGO_URI)
+.then(
+    ()=>{
+       app.listen(process.env.PORT,()=>{
+    console.log(`connected to db &&listening at Port ${process.env.PORT}`)
 })
 
-/*
+    }
+)
+.catch((err)=>{
+    console.log(err)
+})
 
-const uri =
-  "mongodb+srv://hemanthaim543210:AVlIeBy9RN2TF3aD@cluster0.i3qohj3.mongodb.net/?retryWrites=true&w=majority";
+//listen for request
 
 
-mongoose
-  .connect(uri, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => {
-    console.log("Connected to MongoDB Atlas");
-  })
-  .catch((error) => {
-    console.error("Error connecting to MongoDB Atlas:", error);
-  });
-*/
+
+
